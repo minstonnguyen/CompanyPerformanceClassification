@@ -1,6 +1,19 @@
 import requests, pandas as pd
 import matplotlib.pyplot as plt
 
+
+
+class FinancialDataFetcher:
+    _instance = None
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(FinancialDataFetcher, cls).__new__(cls)
+        return cls._instance
+    def getFinancialKpiData(self, companyConcept):
+        parsingData = companyConcept.json()['units']['USD']
+        for data in parsingData:
+            print(data)
+
 #sec website requires a user-agent header in the request to see who is accessing their server
 headers = {'User-Agent': "email@address.com"}
 
@@ -14,7 +27,7 @@ companyTickers = requests.get(
 
 #print first key(apple) data structure that appears in JSON file/ 
 #cik_str is the central index key, unique id assigned by SEC, ticker is symbol for company, title is the name of company
-companyDataVal1 = companyTickers.json()['0']
+companyDataVal1 = companyTickers.json()['5']
 #print(companyDataVal1)
 
 #extracts cik from company1 and stores it(_ _ _ _ _ _)
@@ -74,7 +87,7 @@ companyConcept.json().keys()
 companyConcept.json()['units']
 companyConcept.json()['units'].keys()
 #prints fy and end and val
-#print(companyConcept.json()['units']['USD'])
+print(companyConcept.json()['units']['USD'])
 
 #dataFrame creation from filing data
 assetsData = pd.DataFrame.from_dict((companyConcept.json()['units']['USD']))
@@ -85,7 +98,12 @@ assetsData.form
 #filters out non 10Q forms so only quarterly reports, reset_index reindexes DataFrame from 0 which cleans up index after filtering
 assets10Q = assetsData[assetsData.form == '10-Q'].reset_index(drop=True)
 
-print(assetsData)
+#print(assetsData)
 #plots end dates for 10Q vs assets value
-assets10Q.plot(x='end',y='val')
-plt.show()
+#assets10Q.plot(x='end',y='val')
+#plt.show()
+
+dataFetcher = FinancialDataFetcher()
+#dataFetcher.getFinancialKpiData(companyConcept)
+
+    
