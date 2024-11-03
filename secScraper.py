@@ -72,11 +72,22 @@ companyFacts.json()['facts'].keys()
 
 #extracts data about number of shares from companyFacts
 #print(companyFacts.json()['facts']['dei']['EntityCommonStockShareOutstanding'])
-
+pd.set_option('display.max_columns', None) 
+pd.set_option('display.max_rows', None) 
+pd.set_option('display.max_colwidth', None)
 #financial statement line items w/key financial items. has fiscal end data, value, accession number for each filing w the SEC, filed
 companyFacts.json()['facts']['us-gaap']['AccountsPayable']
 companyFacts.json()['facts']['us-gaap']['Revenues']
 companyFacts.json()['facts']['us-gaap']['Assets']
+companyFacts.json()['facts']['us-gaap']['GrossProfit']
+grossProfitData = pd.DataFrame.from_dict((companyFacts.json()['facts']['us-gaap']['GrossProfit']))
+latestEntryOfGPData = grossProfitData.iloc[-1]
+lastValueOfGrossProfit = latestEntryOfGPData.values[-1][-1] #last value of grossProfit
+
+dateOfLatestEntryOfGPData = lastValueOfGrossProfit.get('end')
+print(dateOfLatestEntryOfGPData)
+#print(companyFacts.json()['facts']['us-gaap'].keys())
+
 
 companyConcept = requests.get(
     f'https://data.sec.gov/api/xbrl/companyconcept/CIK{cik}/us-gaap/Assets.json',
@@ -87,7 +98,7 @@ companyConcept.json().keys()
 companyConcept.json()['units']
 companyConcept.json()['units'].keys()
 #prints fy and end and val
-print(companyConcept.json()['units']['USD'])
+#print(companyConcept.json()['units']['USD'][-1])
 
 #dataFrame creation from filing data
 assetsData = pd.DataFrame.from_dict((companyConcept.json()['units']['USD']))
