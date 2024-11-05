@@ -42,7 +42,7 @@ companyData['cik_str'] = companyData['cik_str'].astype(str).str.zfill(10)
 #prints out all companies, ticker, and title
 #print(companyData)
 
-#selects first row  of companyData and extracts cik_str which is the cik unique id. this will be used to fetch further company specific data on SEC
+#selects first row  of companyData and extracts cik_str which is the cik unique id. this will be used to fetch further company specific data on SEC THIS IS THE WAY WE GET DATA OF APPLE
 cik = companyData.iloc[0].cik_str
 #sends request to SEC to fetch company metada
 filingMetadata = requests.get(f'https://data.sec.gov/submissions/CIK{cik}.json',
@@ -64,14 +64,14 @@ companyFacts = requests.get(f'https://data.sec.gov/api/xbrl/companyfacts/CIK{cik
     headers=headers)
 
 #exploring json structure for companyFacts
-companyFacts.json().keys()
-companyFacts.json()['facts']
-companyFacts.json()['facts'].keys()
-#first value row of json that shows end, value, fiscal year quarter type of form when the form was filled
-#print(companyFacts.json()['facts']['dei']['EntityCommonStockSharesOutstanding']['units']['shares'][0])
+#print(companyFacts.json().keys())
+#print(companyFacts.json()['facts'])
+#print(companyFacts.json()['facts']['us-gaap'].keys())
+#first value row of json that shows end, value, fiscal year quarter type of form when the form was filled HOW TO GET CRUCIAL DATA ON THE IMPORTANT COMPANY DATA
+print(companyFacts.json()['facts']['dei']['EntityCommonStockSharesOutstanding']['units']['shares'][-1])
 
 #extracts data about number of shares from companyFacts
-#print(companyFacts.json()['facts']['dei']['EntityCommonStockShareOutstanding'])
+#print(companyFacts.json()['facts']['dei']['EntityCommonStockSharesOutstanding'])
 pd.set_option('display.max_columns', None) 
 pd.set_option('display.max_rows', None) 
 pd.set_option('display.max_colwidth', None)
@@ -80,12 +80,13 @@ companyFacts.json()['facts']['us-gaap']['AccountsPayable']
 companyFacts.json()['facts']['us-gaap']['Revenues']
 companyFacts.json()['facts']['us-gaap']['Assets']
 companyFacts.json()['facts']['us-gaap']['GrossProfit']
-grossProfitData = pd.DataFrame.from_dict((companyFacts.json()['facts']['us-gaap']['GrossProfit']))
-latestEntryOfGPData = grossProfitData.iloc[-1]
-lastValueOfGrossProfit = latestEntryOfGPData.values[-1][-1] #last value of grossProfit
-
-dateOfLatestEntryOfGPData = lastValueOfGrossProfit.get('end')
-print(dateOfLatestEntryOfGPData)
+#grossProfitData = pd.DataFrame.from_dict((companyFacts.json()['facts']['us-gaap']['GrossProfit']))
+easyWayToGetGPData = companyFacts.json()['facts']['us-gaap']['GrossProfit']['units']['USD'][-1]['val']
+#latestEntryOfGPData = grossProfitData.iloc[-1]
+#lastValueOfGrossProfit = latestEntryOfGPData.values[-1][-1] #last value of grossProfit
+#dateOfLatestEntryOfGPData = lastValueOfGrossProfit.get('end')
+#grossProfitLatestEntry = lastValueOfGrossProfit.get('val')
+print(easyWayToGetGPData)
 #print(companyFacts.json()['facts']['us-gaap'].keys())
 
 
