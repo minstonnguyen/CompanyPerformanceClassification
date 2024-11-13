@@ -1,8 +1,11 @@
 from django.db import models
 
 class Users(models.Model):
-    name = models.CharField(max_length=15)
-
+    username = models.CharField(max_length=50)
+    firstName = models.CharField(max_length=50)
+    lastName = models.CharField(max_length=50)
+    email = models.EmailField(unique=True, default='default@example.com')
+    #date joined, date last active, user admin add
     
 class Companies(models.Model):
     cik = models.CharField(max_length=10)

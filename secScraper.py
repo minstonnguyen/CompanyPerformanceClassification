@@ -76,7 +76,8 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None) 
 pd.set_option('display.max_colwidth', None)
 #financial statement line items w/key financial items. has fiscal end data, value, accession number for each filing w the SEC, filed
-companyFacts.json()['facts']['us-gaap']['AccountsPayable']
+companyFacts.json()['facts']['us-gaap']
+#companyFacts.json()['facts']['us-gaap']['AccountsPayable']
 companyFacts.json()['facts']['us-gaap']['Revenues']
 companyFacts.json()['facts']['us-gaap']['Assets']
 companyFacts.json()['facts']['us-gaap']['GrossProfit']
