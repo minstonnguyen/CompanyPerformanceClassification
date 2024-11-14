@@ -113,8 +113,8 @@ assets10Q = assetsData[assetsData.form == '10-Q'].reset_index(drop=True)
 
 #print(assetsData)
 #plots end dates for 10Q vs assets value
-#assets10Q.plot(x='end',y='val')
-#plt.show()
+assets10Q.plot(x='end',y='val')
+plt.show()
 
 dataFetcher = FinancialDataFetcher()
 #dataFetcher.getFinancialKpiData(companyConcept)
